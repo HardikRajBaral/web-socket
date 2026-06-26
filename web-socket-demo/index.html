@@ -43,22 +43,54 @@
     <pre id="log"></pre>
   </body>
 
-
   <script>
-    const statusEl=document.getElementById('status');
-    const logEl=document.getElementById('log');
-    const inputEl=document.getElementById('message-input');
+    const status = document.getElementById("status");
+    const log = document.getElementById("log");
+    const input = document.getElementById("message-input");
 
+    const appendLog = (label, message) => {
+      const entry = `${new Date().toLocaleTimeString()} ${label}:${message}\n`;
+      log.textContent = entry + log.textContent;
+    };
 
     //1. Initiate the handshake with the ws server
-    const socket =new  WebSocket('ws://localhost:8080');
+    const socket = new WebSocket("ws://localhost:8080");
 
-    socket.addEventListener('open',()=>{
-        statusEl.textContent=' CONNECTED: ws://localhost:8080';
-        statusEl.className='status-on';
-    })
+    //2.listen for open event
+    socket.addEventListener("open", () => {
+      status.textContent = " CONNECTED: ws://localhost:8080";
+      status.className = "status-on";
+      appendLog("[SYSTEM]", "Tunnel is established.");
+    });
 
+    //3. listen for closing event
+    socket.addEventListener("close", () => {
+      status.textContent = " DISCONNECTED ";
+      status.className = "status-off";
+      appendLog("[SYSTEM]", "Tunnel is closed .");
+    });
+    //4. listen for error event
+    socket.addEventListener("error", (err) => {
+      status.textContent = " ERROR ";
+      status.className = "status-off";
+      appendLog("[SYSTEM]", "Tunnel error: " + err.message);
+    });
+
+    socket.addEventListener("message", (e) => {
+      appendLog("[RECEIVED]", e.data);
+    });
+
+    document
+      .getElementById("message-form")
+      .addEventListener("submit", (e) => {
+        e.preventDefault()
+        if(socket.readyState !== WebSocket.OPEN){
+             appendLog("[ERROR ]", "No active tunnel found ."); 
+        }
+        const msg= input.value.trim()
+        socket.send(msg);
+        appendLog('[SENT]', msg); 
+        input.value = "";
+      });
   </script>
-
-
 </html>
