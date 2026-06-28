@@ -14,7 +14,7 @@ matchRouter.get('/', async (req, res) => {
     if(!parsed.success){
         return res.status(400).json({
             error:"Invalid query.",
-            detail:JSON.stringify(parsed.error)
+            detail:parsed.error.issues
         })
     }
 
@@ -41,10 +41,10 @@ matchRouter.post('/', async (req, res) => {
     if(!parsed.success){
         return res.status(400).json({
             error:"invalid payload",
-            details: JSON.stringify(parsed.error)
+            details: parsed.error.issues
         })
     }
-    const {data:{startTime,endTime,homeScore,awayScore}}=parsed
+    const {startTime,endTime,homeScore,awayScore}=parsed.data
 
 
     try {
