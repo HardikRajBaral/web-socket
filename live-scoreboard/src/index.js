@@ -17,7 +17,7 @@ app.get("/", (req, res) => {
   res.json({ message: "Live scoreboard server is running." });
 });
 
-app.use(securityMiddleware())
+// app.use(securityMiddleware())
 
 app.use('/matches',matchRouter)
 app.use('/matches/:id/commentary',commentaryRouter)

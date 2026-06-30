@@ -74,7 +74,7 @@ function handleMessages(socket,data){
 export function  attachWebSocketServer(server){
 
     const wss = new  WebSocketServer({
-        server,
+        noServer:true,
         path:'/ws',
         maxPayload: 1024*1024
     })
@@ -91,7 +91,7 @@ export function  attachWebSocketServer(server){
                     if(decision.reason.isRateLimit()){
                         socket.write('HTTP/1.1 429 Too many request\r\n\r\n')
                     }else{
-                        socket.write('HTTP/1.1 403 Forbidden\ r\n\r\n')
+                        socket.write('HTTP/1.1 403 Forbidden\r\n\r\n')
                     }
                     socket.destroy();
                     return;
