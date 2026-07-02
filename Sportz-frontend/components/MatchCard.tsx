@@ -23,7 +23,7 @@ export default function MatchCard({match,isActive,onWatch,onUnwatch}: MatchCardP
         return isActive? 'Viewing match' : 'Watch Match'
     })()
     return (
-        <div className={'bg-yellow-200 w-full max-w-md p-4 mt-12 rounded-2xl shadow-md'}>
+        <div className={'bg-yellow-200 w-full max-w-md p-4 rounded-2xl shadow-md'}>
                 <div className={'flex justify-between items-center gap-4 p-2'}>
                     <span className={'inline-flex items-center px-3 py-1 rounded-full bg-linear-to-r from-emerald-700 to-teal-700 text-white text-xs font-semibold uppercase tracking-wide shadow-sm border border-white/30'}>{match.sport}</span>
                 <div className={'h-8 flex items-center px-3 bg-white border border-gray-600 rounded-md gap-2'}>
